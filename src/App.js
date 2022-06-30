@@ -19,7 +19,7 @@ function App() {
       setLoading(true);
       if (walletAddress) {
         const res = await axios.get(
-          `https://api.covalenthq.com/v1/1/address/${walletAddress}/balances_v2/?key=${process.env.REACT_APP_COVALENT_API_KEY}&page-size=20&page-number=0`
+          `https://api.covalenthq.com/v1/1/address/${walletAddress}/transactions_v2/?key=${process.env.REACT_APP_COVALENT_API_KEY}`
         );
         navigate(`/dashboard/${walletAddress}`, {
           state: { data: res.data.data },
@@ -91,15 +91,11 @@ function App() {
           </div>
         ) : (
           <div className="flex flex-row h-full w-full items-center justify-center">
-            {showDashBoard ? (
-              <Banner data={data} />
-            ) : (
-              <Search
-                walletAddress={walletAddress}
-                setWalletAddress={setWalletAddress}
-                getDetailsByAddress={getDetailsByAddress}
-              />
-            )}
+            <Search
+              walletAddress={walletAddress}
+              setWalletAddress={setWalletAddress}
+              getDetailsByAddress={getDetailsByAddress}
+            />
           </div>
         )}
       </div>

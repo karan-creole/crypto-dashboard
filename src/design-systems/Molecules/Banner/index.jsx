@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
-function Banner() {
+function Banner({ addressData }) {
   const location = useLocation();
   const refWalletAddress = useRef();
   const [data, setData] = useState(null);
@@ -20,53 +20,12 @@ function Banner() {
     }, 1000);
   };
 
-  const getDetailsByAddress = async () => {
-    try {
-      setLoading(true);
-      if (address) {
-        const res = await axios.get(
-          `https://api.covalenthq.com/v1/1/address/${address}/balances_v2/?key=${process.env.REACT_APP_COVALENT_API_KEY}&page-size=20&page-number=0`
-        );
-        setData(res.data.data);
-      }
-      setLoading(false);
-    } catch (error) {
-      setLoading(false);
-      if (error.response.data.error_code === 400) {
-        toast.error("Invalid data", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
-      }
-      if (error.response.data.error_code === 409) {
-        toast.error("You have exceeded your limit, come back after sometime.", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
-      }
-    }
-  };
-
   useEffect(() => {
-    if (location.state?.data) {
-      setData(location.state.data);
-    } else {
-      getDetailsByAddress();
-    }
+    setData(addressData)
   }, []);
 
   return (
-    <div className="w-full h-full bg-red-400 mx-20">
+    <div className="w-full h-full bg-red-400 ">
       <div className="flex flex-row items-center">
         <img
           src={
