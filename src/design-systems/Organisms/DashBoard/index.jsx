@@ -14,6 +14,8 @@ const DashBoard = () => {
   const location = useLocation();
   const [currentPage, setCurrentPage] = useState(0);
   const [pageSize, setPageSize] = useState(5);
+  const [nftCurrentPage, setNftCurrentPage] = useState(0);
+  const [nftPageSize, setNftPageSize] = useState(5);
   const [tableData, setTableData] = useState([]);
   const [transactionData, setTransactionData] = useState(null);
   const [tabState, setTabState] = useState("address");
@@ -112,12 +114,15 @@ const DashBoard = () => {
     }
   };
 
-  const getTansactionsByAddress = async (pageNumber = 0, pageSize = 5) => {
+  const getTansactionsByAddress = async (
+    nftCurrentPage = 0,
+    nftPageSize = 5
+  ) => {
     try {
       setLoading(true);
       if (address) {
         const res = await axios.get(
-          `https://api.covalenthq.com/v1/1/address/${address}/transactions_v2/?key=${process.env.REACT_APP_COVALENT_API_KEY}&page-size=${pageSize}&page-number=${pageNumber}&nft=true`
+          `https://api.covalenthq.com/v1/1/address/${address}/transactions_v2/?key=${process.env.REACT_APP_COVALENT_API_KEY}&page-size=${nftPageSize}&page-number=${nftCurrentPage}&nft=true`
         );
         setTransactionData(res.data.data);
       }
@@ -194,15 +199,16 @@ const DashBoard = () => {
                 data={transactionData.items}
                 paginate={true}
                 count={-1}
-                rowsPerPage={pageSize}
-                pageIndex={currentPage}
-                pageSize={pageSize}
+                rowsPerPage={nftPageSize}
+                pageIndex={nftCurrentPage}
+                pageSize={nftPageSize}
                 handleChangeRowsPerPage={(e) => (
-                  setPageSize(e.target.value),
-                  paginateData(currentPage, e.target.value)
+                  setNftPageSize(e.target.value),
+                  getTansactionsByAddress(nftCurrentPage, e.target.value)
                 )}
                 onPageChange={(e, page) => (
-                  paginateData(page, pageSize), setCurrentPage(page)
+                  getTansactionsByAddress(page, nftPageSize),
+                  setCurrentPage(page)
                 )}
               />
             )}
