@@ -19,7 +19,6 @@ const TablePaginationActions = (props) => {
   };
 
   const handleNextButtonClick = (event) => {
-    console.log(page, ' == innnn');
     onPageChange(event, page + 1);
   };
 

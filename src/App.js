@@ -1,15 +1,13 @@
 import "./App.css";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Search from "./design-systems/Molecules/Search";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Banner from "./design-systems/Molecules/Banner";
 import { useNavigate } from "react-router-dom";
 
 function App() {
   const [walletAddress, setWalletAddress] = useState(null);
-  const [showDashBoard, setShowDashBoard] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [data, setData] = useState(null);
@@ -19,56 +17,24 @@ function App() {
       setLoading(true);
       if (walletAddress) {
         const res = await axios.get(
-          `https://api.covalenthq.com/v1/1/address/${walletAddress}/transactions_v2/?key=${process.env.REACT_APP_COVALENT_API_KEY}`
+          `https://api.covalenthq.com/v1/1/address/${walletAddress}/balances_v2/?key=${process.env.REACT_APP_COVALENT_API_KEY}&page-size=5&page-number=0&nft=true`
         );
         navigate(`/dashboard/${walletAddress}`, {
           state: { data: res.data.data },
         });
         setData(res.data.data);
-        setShowDashBoard(true);
       }
       setLoading(false);
     } catch (error) {
       setLoading(false);
       if (error.response.data.error_code === 400) {
-        toast.error("Invalid data", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
+        toast.error("Invalid data");
       }
       if (error.response.data.error_code === 409) {
-        toast.error("You have exceeded your limit, come back after sometime.", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
+        toast.error("You have exceeded your limit, come back after sometime.");
       }
-      console.log(error);
     }
   };
-  // https://api.covalenthq.com/v1/chains/status/?key=your-api-key
-
-  // const getAllData = async () => {
-  //   // const res = await axios.get(`https://api.covalenthq.com/v1/chains/status/?key=${process.env.REACT_APP_COVALENT_API_KEY}`)
-  //   // https://api.covalenthq.com/v1/1/address/demo.eth/balances_v2/
-  //   const res = await axios.get(
-  //     `https://api.covalenthq.com/v1/1/address/0x6e5b0de0add71e1052b11abbfe6c433dd0466fb4/balances_v2/?key=${process.env.REACT_APP_COVALENT_API_KEY}`
-  //   );
-  //   console.log(res, " ===");
-  // };
-
-  useEffect(() => {
-    // getAllData();
-  }, []);
 
   return (
     <>
@@ -99,17 +65,6 @@ function App() {
           </div>
         )}
       </div>
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
     </>
   );
 }

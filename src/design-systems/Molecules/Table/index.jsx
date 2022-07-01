@@ -40,49 +40,9 @@ function DataTable({
     []
   );
 
-  const Styles = styled("div")(({ theme }) => ({
-    table: {
-      borderSpacing: 0,
-      border: "1px solid black",
-
-      tr: {
-        td: {
-          padding: "0.5rem",
-          textAlign: "center",
-        },
-        lastChild: {
-          borderBottom: 0,
-        },
-      },
-
-      th: {
-        fontSize: "1.5rem",
-        lineHeight: "1.75rem",
-        fontWeight: "600",
-        whiteSpace: "pre-line",
-        td: {
-          margin: 0,
-          padding: "0.5rem",
-          borderBottom: "1px solid black",
-          borderRight: "1px solid black",
-          background: "white",
-
-          lastChild: {
-            borderRight: 0,
-          },
-        },
-      },
-    },
-  }));
-
   return (
     <Paper sx={{ width: "100%", overflow: "scroll" }}>
-      <Table
-        size="small"
-        {...getTableProps()}
-        stickyHeader
-        aria-label="sticky table"
-      >
+      <Table size="small" {...getTableProps()}>
         <TableHead className="font-extrabold">
           {headerGroups.map((headerGroup) => (
             <TableRow {...headerGroup.getHeaderGroupProps()}>
@@ -118,7 +78,7 @@ function DataTable({
                         {...cell.getCellProps({
                           layoutTransition: spring,
                         })}
-                        className="!text-xs border-2"
+                        className="!text-xs border-2 px-4 py-2"
                       >
                         {/* <TableCell {...cell.getCellProps()} align="center"> */}
                         {cell.render("Cell")}
@@ -145,10 +105,10 @@ function DataTable({
           rowsPerPage={pageSize}
           page={pageIndex}
           SelectProps={{
-            inputProps: { 'aria-label': 'test' },
+            inputProps: { "aria-label": "test" },
             native: false,
           }}
-          labelRowsPerPage='test'
+          labelRowsPerPage="test"
           onPageChange={onPageChange}
           onRowsPerPageChange={handleChangeRowsPerPage}
           ActionsComponent={TablePaginationActions}
@@ -166,10 +126,12 @@ function DataTable({
           rowsPerPage={pageSize}
           page={pageIndex}
           SelectProps={{
-            inputProps: { 'aria-label': 'test' },
+            inputProps: { "aria-label": "test" },
             native: false,
           }}
-          labelDisplayedRows={(from,to,count) => `${pageSize*pageIndex} - ${(pageSize*pageIndex)+pageSize}`}
+          labelDisplayedRows={(from, to, count) =>
+            `${pageSize * pageIndex} - ${pageSize * pageIndex + pageSize}`
+          }
           onPageChange={onPageChange}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
