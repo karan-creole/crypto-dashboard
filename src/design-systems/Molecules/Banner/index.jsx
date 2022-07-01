@@ -23,7 +23,7 @@ function Banner({ addressData }) {
   return (
     <div className="w-full h-full bg-indigo-400 py-20 px-4">
       <div className="flex flex-row items-center justify-between">
-        <div className="flex flex-row">
+        <div className="flex flex-row items-center">
           <img
             src={
               "https://lh3.googleusercontent.com/VFdpUbTVcSSh8GvYrgRPnZS6Pz8hkppj6QpG4OsolTnI0dup5Is6pK8IbhyX5iwWBcdBC0LCrBTZAnsq6luVa-98pVd3NnfDkaJdvsU=s0"

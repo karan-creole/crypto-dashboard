@@ -163,7 +163,7 @@ const DashBoard = () => {
                 variant="h5"
                 className={`my-4 ${tabState == "address" && "border-b-2 "}`}
               >
-                Address Balance
+                Assets
               </Typography>
             </button>
             <button onClick={() => setTabState("nft")} className="!px-4">
@@ -171,7 +171,7 @@ const DashBoard = () => {
                 variant="h5"
                 className={`my-4  ${tabState == "nft" && "border-b-2 "}`}
               >
-                NFT
+                Transactions
               </Typography>
             </button>
           </div>
